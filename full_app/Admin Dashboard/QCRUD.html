@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Question List</title>
+    <!-- Include Bootstrap CSS via CDN -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #180101;
+        }
+        header {
+            background-color: #287fd6 ;
+        }
+        header h1 {
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background-color: #0b0202;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 20px;
+        }
+        footer {
+            background-color: #01060b;
+            color: #fff;
+            padding: 10px 0;
+            position: absolute;
+            bottom: 0; /* Stick to the bottom of the viewport */
+            width: 100%;
+        }
+
+        /* Style the label */
+.form-group label {
+    font-weight: bold;
+    color: #007BFF; /* Blue color for the label */
+    font-size: 16px;
+}
+
+/* Style the select element */
+.form-control {
+    border: 2px solid #007BFF; /* Blue border for the select box */
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Style the option elements within the select */
+select option {
+    background-color: #f4f4f4; /* Light gray background for options */
+    font-size: 16px;
+    color: #333; /* Text color */
+}
+
+/* Hover effect for options */
+select option:hover {
+    background-color: #007BFF; /* Blue background on hover */
+    color: #fff; /* White text on hover */
+}
+
+
+    </style>
+</head>
+<body>
+<header class="bg-dark text-light text-center">
+    <h1>Question Management Menu</h1>
+</header>
+<div class="container">
+    <!-- Form to add a new question -->
+    <form id="addQuestionForm">
+        <div class="form-group">
+            <label for="questionType">Question Type:</label>
+            <select class="form-control" id="questionType" required>
+                <option value="numpy">numpy</option>
+                <option value="pandas">pandas</option>
+                <option value="keras">keras</option>
+                <option value="tensorflow">tensorflow</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="newTitle">Title:</label>
+            <input type="text" class="form-control" id="newTitle" required>
+        </div>
+        <div class="form-group">
+            <label for="newDescription">Description:</label>
+            <textarea class="form-control" id="newDescription" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="newAnswer">Answer:</label>
+            <input type="text" class="form-control" id="newAnswer" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Question</button>
+    </form>
+</div>
+<footer class="bg-dark text-light text-center">
+    &copy; 2023 MLLEARN. All rights reserved.
+</footer>
+
+<script>
+    document.getElementById("addQuestionForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const questionType = document.getElementById("questionType").value;
+        const newTitle = document.getElementById("newTitle").value;
+        const newDescription = document.getElementById("newDescription").value;
+        const newAnswer = document.getElementById("newAnswer").value;
+
+        const formData = {
+            option: questionType,
+            title: newTitle,
+            description: newDescription,
+            answer: newAnswer
+        };
+
+        fetch("http://localhost:8080/api/questions", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                alert("Success");
+            })
+            .catch((error) => {
+                alert(error);
+            });
+    });
+
+
+
+
+</script>
+</body>
+</html>
